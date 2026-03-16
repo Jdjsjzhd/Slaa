@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
 
 <meta charset="UTF-8">
@@ -82,7 +83,9 @@ background:#22c55e;
 width:0%;
 }
 
-.hidden{display:none}
+.hidden{
+display:none
+}
 
 </style>
 
@@ -96,9 +99,13 @@ width:0%;
 
 <div class="glass w-full max-w-sm">
 
-<h1 class="text-3xl font-black text-blue-500 text-center">MASTERY PRO</h1>
+<h1 class="text-3xl font-black text-blue-500 text-center">
+MASTERY PRO
+</h1>
 
-<p class="text-center text-gray-400 mb-4">Plataforma de aulas</p>
+<p class="text-center text-gray-400 mb-4">
+Plataforma de Video Aulas
+</p>
 
 <form id="loginForm">
 
@@ -122,15 +129,21 @@ width:0%;
 
 <header class="flex justify-between items-center mb-6">
 
-<h2 class="text-2xl font-bold text-blue-400">Mastery</h2>
+<h2 class="text-2xl font-bold text-blue-400">
+Mastery
+</h2>
 
-<button onclick="logout()" class="bg-red-500 px-4 py-2 rounded">Sair</button>
+<button onclick="logout()" class="bg-red-500 px-4 py-2 rounded">
+Sair
+</button>
 
 </header>
 
 <h2 id="boasvindas" class="text-xl font-bold"></h2>
 
-<p class="text-gray-400">Progresso do curso</p>
+<p class="text-gray-400">
+Progresso do curso
+</p>
 
 <div class="progresso">
 <div id="barra" class="barra"></div>
@@ -138,25 +151,39 @@ width:0%;
 
 <p id="porcentagem" class="text-gray-400 text-sm mt-1"></p>
 
+<button onclick="gerarCertificado()" class="btn mt-4">
+Gerar Certificado
+</button>
+
 <div class="grid md:grid-cols-3 gap-6 mt-6">
 
-<!-- MENU -->
+<!-- MENU AULAS -->
 
 <div>
 
-<h3 class="font-bold mb-3">Aulas</h3>
+<h3 class="font-bold mb-3">
+Aulas
+</h3>
 
-<button class="menu-btn" onclick="abrirAula(1)">Educação Financeira</button>
+<button class="menu-btn" onclick="abrirAula(1)">
+Educação Financeira
+</button>
 
-<button class="menu-btn" onclick="abrirAula(2)">Programação</button>
+<button class="menu-btn" onclick="abrirAula(2)">
+Programação
+</button>
 
-<button class="menu-btn" onclick="abrirAula(3)">Empreendedorismo</button>
+<button class="menu-btn" onclick="abrirAula(3)">
+Empreendedorismo
+</button>
 
-<button class="menu-btn" onclick="abrirAula(4)">Mentalidade</button>
+<button class="menu-btn" onclick="abrirAula(4)">
+Mentalidade
+</button>
 
 </div>
 
-<!-- CONTEUDO -->
+<!-- CONTEÚDO -->
 
 <div class="md:col-span-2">
 
@@ -170,7 +197,9 @@ width:0%;
 
 <p id="texto" class="text-gray-400 mt-2"></p>
 
-<button onclick="concluirAula()" class="btn mt-4">Marcar Aula Concluída</button>
+<button onclick="concluirAula()" class="btn mt-4">
+Marcar Aula Concluída
+</button>
 
 </div>
 
@@ -198,25 +227,25 @@ const aulas={
 1:{
 titulo:"Educação Financeira",
 video:"https://www.youtube.com/embed/TaV6zVQ2d8E",
-texto:"Educação financeira é aprender a controlar o dinheiro. Muitas pessoas trabalham muito mas acabam gastando tudo sem planejamento. Quando você aprende a administrar seu dinheiro, começa a economizar e investir melhor."
+texto:"Educação financeira é aprender a controlar seu dinheiro, entender como economizar, investir e gastar com consciência."
 },
 
 2:{
 titulo:"Programação",
 video:"https://www.youtube.com/embed/8mei6uVttho",
-texto:"Programação é a habilidade de criar softwares e sites. Hoje praticamente tudo funciona com programação."
+texto:"Programação é criar soluções digitais usando lógica e tecnologia."
 },
 
 3:{
 titulo:"Empreendedorismo",
 video:"https://www.youtube.com/embed/7XkY9n0u3yU",
-texto:"Empreender é criar algo que resolva problemas para outras pessoas."
+texto:"Empreender é identificar problemas e criar soluções que gerem valor."
 },
 
 4:{
 titulo:"Mentalidade",
 video:"https://www.youtube.com/embed/fM2QdC9d2sQ",
-texto:"A mentalidade de crescimento ajuda você a persistir mesmo quando as coisas ficam difíceis."
+texto:"A mentalidade certa faz você persistir mesmo quando os desafios aparecem."
 }
 
 }
@@ -237,8 +266,6 @@ document.getElementById("erro").classList.remove("hidden")
 return
 }
 
-/* ADMIN UNIVERSAL */
-
 if(email==="D"){
 
 window.usuario=email
@@ -250,8 +277,6 @@ document.getElementById("boasvindas").innerText="Bem-vindo Administrador"
 
 return
 }
-
-/* BLOQUEIO ALUNOS */
 
 if(localStorage.getItem("sessao_"+email)){
 alert("Conta já está em uso")
@@ -285,6 +310,79 @@ if(progresso>100)progresso=100
 
 document.getElementById("barra").style.width=progresso+"%"
 document.getElementById("porcentagem").innerText=progresso+"% concluído"
+
+}
+
+function gerarCertificado(){
+
+if(progresso<100){
+alert("Complete todas as aulas primeiro")
+return
+}
+
+let nome=document.getElementById("boasvindas").innerText.replace("Bem-vindo ","")
+
+let w=window.open()
+
+w.document.write(`
+
+<html>
+
+<head>
+
+<title>Certificado</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+text-align:center;
+padding:40px;
+}
+
+.cert{
+background:white;
+padding:40px;
+border:8px solid gold;
+}
+
+h1{
+font-size:40px;
+}
+
+h2{
+font-size:30px;
+margin:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="cert">
+
+<h1>CERTIFICADO</h1>
+
+<p>Certificamos que</p>
+
+<h2>${nome}</h2>
+
+<p>concluiu o curso da plataforma</p>
+
+<h2>MASTERY PRO</h2>
+
+<p>Data: ${new Date().toLocaleDateString()}</p>
+
+</div>
+
+</body>
+
+</html>
+
+`)
 
 }
 

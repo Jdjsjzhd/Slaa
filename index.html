@@ -1,112 +1,302 @@
 <!DOCTYPE html>
-<html lang="pt-br" class="dark">
+<html lang="pt-br">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Mastery Ultra - 100 Logins</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
-    
-    <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mastery Pro</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;500;800&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Lexend',sans-serif;
+background:linear-gradient(135deg,#020617,#000);
+color:white;
+}
+
+.glass{
+background:rgba(15,23,42,0.9);
+border-radius:20px;
+padding:25px;
+border:1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+}
+
+.input{
+width:100%;
+padding:12px;
+border-radius:10px;
+background:#020617;
+border:1px solid #1e293b;
+margin-bottom:10px;
+}
+
+.btn{
+width:100%;
+padding:12px;
+background:#2563eb;
+border-radius:10px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.menu-btn{
+display:block;
+width:100%;
+padding:10px;
+margin-bottom:8px;
+background:#020617;
+border-radius:10px;
+text-align:left;
+}
+
+.menu-btn:hover{
+background:#2563eb;
+}
+
+.video{
+width:100%;
+aspect-ratio:16/9;
+border-radius:16px;
+overflow:hidden;
+border:1px solid #1e293b;
+}
+
+.progresso{
+width:100%;
+height:12px;
+background:#111;
+border-radius:10px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.barra{
+height:100%;
+background:#22c55e;
+width:0%;
+}
+
+.hidden{display:none}
+
+</style>
+
 </head>
-<body class="bg-slate-50 dark:bg-bg-dark text-slate-900 dark:text-slate-100">
 
-    <div id="login-container" class="fixed inset-0 z-[100] flex items-center justify-center login-bg">
-        <div class="absolute inset-0 bg-black/60"></div>
-        <div class="glass-login w-full max-w-md p-10 rounded-[3rem] shadow-2xl relative animate-in fade-in zoom-in duration-500">
-            <div class="flex flex-col items-center mb-8">
-                <div class="size-16 bg-primary rounded-2xl flex items-center justify-center text-white mb-4 shadow-xl shadow-primary/40">
-                    <span class="material-symbols-outlined text-4xl">lock</span>
-                </div>
-                <h1 class="text-3xl font-black tracking-tighter text-white uppercase">Acesso Mastery</h1>
-                <p class="text-slate-400 text-sm mt-2">Área restrita para alunos cadastrados</p>
-            </div>
+<body class="p-4">
 
-            <form id="auth-form" class="space-y-5">
-                <div>
-                    <label class="text-[10px] font-black text-primary uppercase ml-4 mb-2 block tracking-widest">E-mail do Aluno</label>
-                    <input id="email" type="email" placeholder="aluno1@mastery.com" class="w-full bg-white/5 border-white/10 rounded-2xl py-4 px-6 text-white focus:ring-2 focus:ring-primary outline-none transition-all" required>
-                </div>
-                <div>
-                    <label class="text-[10px] font-black text-primary uppercase ml-4 mb-2 block tracking-widest">Senha de Acesso</label>
-                    <input id="password" type="password" placeholder="••••••" class="w-full bg-white/5 border-white/10 rounded-2xl py-4 px-6 text-white focus:ring-2 focus:ring-primary outline-none transition-all" required>
-                </div>
-                <button type="submit" class="w-full bg-primary hover:bg-blue-600 text-white font-black py-4 rounded-2xl shadow-lg shadow-primary/30 transition-all active:scale-95 text-lg">
-                    ACESSAR PLATAFORMA
-                </button>
-            </form>
-            <p class="text-center text-slate-500 text-[10px] mt-6 uppercase font-bold italic">Padrão: aluno(1-100)@mastery.com | Senha: 123456</p>
-        </div>
-    </div>
+<!-- LOGIN -->
 
-    <div id="app-container" class="hidden flex h-screen">
-        <aside class="w-72 hidden lg:flex flex-col bg-white dark:bg-card-dark border-r border-slate-200 dark:border-slate-800">
-            <div class="p-8 flex items-center gap-3">
-                <div class="size-10 bg-primary rounded-xl flex items-center justify-center text-white font-black italic shadow-lg">M</div>
-                <h2 class="text-xl font-black tracking-tighter">MASTERY</h2>
-            </div>
-            <nav class="flex-1 px-4 space-y-2">
-                <button class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl bg-primary/10 text-primary font-bold">
-                    <span class="material-symbols-outlined">play_circle</span> Treinamento
-                </button>
-                <button id="logout-btn" class="w-full flex items-center gap-4 px-6 py-4 rounded-2xl text-slate-400 hover:text-red-500 transition-all font-bold">
-                    <span class="material-symbols-outlined">logout</span> Sair
-                </button>
-            </nav>
-            <div class="p-8">
-                <div class="p-4 rounded-3xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
-                    <div class="flex items-center gap-3">
-                        <div id="user-avatar" class="size-10 rounded-full bg-primary flex items-center justify-center text-white font-bold italic text-sm"></div>
-                        <div>
-                            <p id="user-display" class="text-xs font-black truncate"></p>
-                            <p class="text-[9px] text-primary font-bold">Online</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </aside>
+<div id="login" class="flex items-center justify-center min-h-screen">
 
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="h-20 flex items-center justify-between px-10 bg-white dark:bg-bg-dark border-b border-slate-200 dark:border-slate-800">
-                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Plataforma de Alunos Pro</h3>
-                <div id="status-progress" class="hidden sm:flex items-center gap-4">
-                    <span class="text-[10px] font-black uppercase">Progresso do Curso:</span>
-                    <div class="w-48 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                        <div id="bar" class="bg-primary h-full w-[25%] transition-all duration-1000"></div>
-                    </div>
-                </div>
-            </header>
+<div class="glass w-full max-w-sm">
 
-            <div class="flex-1 overflow-y-auto p-10 custom-scroll">
-                <div class="grid grid-cols-1 xl:grid-cols-4 gap-10">
-                    <div class="xl:col-span-3 space-y-8">
-                        <div class="rounded-[3.5rem] overflow-hidden bg-black aspect-video shadow-2xl border-[10px] border-white dark:border-slate-800 shadow-primary/5">
-                            <iframe id="mainPlayer" class="w-full h-full" src="https://www.youtube.com/embed/2XXJtQ2HQOA" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h1 id="vTitle" class="text-4xl font-black tracking-tighter">Comportamento do Consumidor</h1>
-                                <p id="vDesc" class="text-slate-500 mt-2 text-lg italic">Aula fundamental sobre o processo de decisão de compra.</p>
-                            </div>
-                            <button id="complete-btn" class="px-10 py-5 bg-primary hover:bg-blue-600 text-white rounded-[2rem] font-black shadow-xl shadow-primary/30 active:scale-95 transition-all uppercase">
-                                Concluir Aula
-                            </button>
-                        </div>
-                    </div>
+<h1 class="text-3xl font-black text-blue-500 text-center">MASTERY PRO</h1>
 
-                    <div class="space-y-4">
-                        <div class="bg-white dark:bg-card-dark rounded-[2.5rem] border border-slate-200 dark:border-slate-800 p-4">
-                            <h4 class="font-black text-sm p-4 border-b border-slate-100 dark:border-slate-800 mb-2 uppercase tracking-tighter">Aulas Disponíveis</h4>
-                            <div id="playlist" class="space-y-1"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+<p class="text-center text-gray-400 mb-4">Plataforma de aulas</p>
 
-    <script src="script.js"></script>
+<form id="loginForm">
+
+<input id="email" class="input" placeholder="Login">
+
+<input id="senha" type="password" class="input" placeholder="Senha">
+
+<button class="btn">Entrar</button>
+
+</form>
+
+<p id="erro" class="text-red-500 hidden">Login inválido</p>
+
+</div>
+
+</div>
+
+<!-- PLATAFORMA -->
+
+<div id="plataforma" class="hidden">
+
+<header class="flex justify-between items-center mb-6">
+
+<h2 class="text-2xl font-bold text-blue-400">Mastery</h2>
+
+<button onclick="logout()" class="bg-red-500 px-4 py-2 rounded">Sair</button>
+
+</header>
+
+<h2 id="boasvindas" class="text-xl font-bold"></h2>
+
+<p class="text-gray-400">Progresso do curso</p>
+
+<div class="progresso">
+<div id="barra" class="barra"></div>
+</div>
+
+<p id="porcentagem" class="text-gray-400 text-sm mt-1"></p>
+
+<div class="grid md:grid-cols-3 gap-6 mt-6">
+
+<!-- MENU -->
+
+<div>
+
+<h3 class="font-bold mb-3">Aulas</h3>
+
+<button class="menu-btn" onclick="abrirAula(1)">Educação Financeira</button>
+
+<button class="menu-btn" onclick="abrirAula(2)">Programação</button>
+
+<button class="menu-btn" onclick="abrirAula(3)">Empreendedorismo</button>
+
+<button class="menu-btn" onclick="abrirAula(4)">Mentalidade</button>
+
+</div>
+
+<!-- CONTEUDO -->
+
+<div class="md:col-span-2">
+
+<div class="video">
+
+<iframe id="video" width="100%" height="100%" allowfullscreen></iframe>
+
+</div>
+
+<h3 id="titulo" class="text-2xl font-bold mt-4"></h3>
+
+<p id="texto" class="text-gray-400 mt-2"></p>
+
+<button onclick="concluirAula()" class="btn mt-4">Marcar Aula Concluída</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const usuarios=[
+
+{email:"D",senha:"999000999",nome:"Administrador"},
+
+{email:"ksksksksk",senha:"92929292",nome:"Aluno"},
+{email:"aluno01",senha:"11111111",nome:"Aluno"},
+{email:"aluno02",senha:"22222222",nome:"Aluno"},
+{email:"aluno03",senha:"33333333",nome:"Aluno"},
+{email:"aluno04",senha:"44444444",nome:"Aluno"},
+{email:"aluno05",senha:"55555555",nome:"Aluno"}
+
+]
+
+const aulas={
+
+1:{
+titulo:"Educação Financeira",
+video:"https://www.youtube.com/embed/TaV6zVQ2d8E",
+texto:"Educação financeira é aprender a controlar o dinheiro. Muitas pessoas trabalham muito mas acabam gastando tudo sem planejamento. Quando você aprende a administrar seu dinheiro, começa a economizar e investir melhor."
+},
+
+2:{
+titulo:"Programação",
+video:"https://www.youtube.com/embed/8mei6uVttho",
+texto:"Programação é a habilidade de criar softwares e sites. Hoje praticamente tudo funciona com programação."
+},
+
+3:{
+titulo:"Empreendedorismo",
+video:"https://www.youtube.com/embed/7XkY9n0u3yU",
+texto:"Empreender é criar algo que resolva problemas para outras pessoas."
+},
+
+4:{
+titulo:"Mentalidade",
+video:"https://www.youtube.com/embed/fM2QdC9d2sQ",
+texto:"A mentalidade de crescimento ajuda você a persistir mesmo quando as coisas ficam difíceis."
+}
+
+}
+
+let progresso=0
+
+document.getElementById("loginForm").addEventListener("submit",function(e){
+
+e.preventDefault()
+
+let email=document.getElementById("email").value
+let senha=document.getElementById("senha").value
+
+let user=usuarios.find(u=>u.email===email && u.senha===senha)
+
+if(!user){
+document.getElementById("erro").classList.remove("hidden")
+return
+}
+
+/* ADMIN UNIVERSAL */
+
+if(email==="D"){
+
+window.usuario=email
+
+document.getElementById("login").classList.add("hidden")
+document.getElementById("plataforma").classList.remove("hidden")
+
+document.getElementById("boasvindas").innerText="Bem-vindo Administrador"
+
+return
+}
+
+/* BLOQUEIO ALUNOS */
+
+if(localStorage.getItem("sessao_"+email)){
+alert("Conta já está em uso")
+return
+}
+
+localStorage.setItem("sessao_"+email,"online")
+
+window.usuario=email
+
+document.getElementById("login").classList.add("hidden")
+document.getElementById("plataforma").classList.remove("hidden")
+
+document.getElementById("boasvindas").innerText="Bem-vindo "+user.nome
+
+})
+
+function abrirAula(id){
+
+document.getElementById("video").src=aulas[id].video
+document.getElementById("titulo").innerText=aulas[id].titulo
+document.getElementById("texto").innerText=aulas[id].texto
+
+}
+
+function concluirAula(){
+
+progresso+=25
+
+if(progresso>100)progresso=100
+
+document.getElementById("barra").style.width=progresso+"%"
+document.getElementById("porcentagem").innerText=progresso+"% concluído"
+
+}
+
+function logout(){
+
+localStorage.removeItem("sessao_"+window.usuario)
+
+location.reload()
+
+}
+
+</script>
+
 </body>
 </html>

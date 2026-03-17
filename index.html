@@ -25,7 +25,6 @@ background:rgba(15,23,42,0.9);
 border-radius:20px;
 padding:25px;
 border:1px solid rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
 }
 
 .input{
@@ -60,21 +59,12 @@ text-align:left;
 background:#2563eb;
 }
 
-.video{
-width:100%;
-aspect-ratio:16/9;
-border-radius:16px;
-overflow:hidden;
-border:1px solid #1e293b;
-}
-
 .progresso{
 width:100%;
 height:12px;
 background:#111;
 border-radius:10px;
 overflow:hidden;
-margin-top:10px;
 }
 
 .barra{
@@ -104,13 +94,12 @@ MASTERY PRO
 </h1>
 
 <p class="text-center text-gray-400 mb-4">
-Plataforma de Video Aulas
+Plataforma de Conhecimento
 </p>
 
 <form id="loginForm">
 
 <input id="email" class="input" placeholder="Login">
-
 <input id="senha" type="password" class="input" placeholder="Senha">
 
 <button class="btn">Entrar</button>
@@ -151,55 +140,55 @@ Progresso do curso
 
 <p id="porcentagem" class="text-gray-400 text-sm mt-1"></p>
 
-<button onclick="gerarCertificado()" class="btn mt-4">
+<button onclick="abrirQuiz()" class="btn mt-4">
+Fazer Quiz Final
+</button>
+
+<button onclick="gerarCertificado()" class="btn mt-2">
 Gerar Certificado
 </button>
 
 <div class="grid md:grid-cols-3 gap-6 mt-6">
 
-<!-- MENU AULAS -->
-
 <div>
 
 <h3 class="font-bold mb-3">
-Aulas
+Conteúdos
 </h3>
 
-<button class="menu-btn" onclick="abrirAula(1)">
-Educação Financeira
-</button>
-
-<button class="menu-btn" onclick="abrirAula(2)">
-Programação
-</button>
-
-<button class="menu-btn" onclick="abrirAula(3)">
-Empreendedorismo
-</button>
-
-<button class="menu-btn" onclick="abrirAula(4)">
-Mentalidade
-</button>
+<button class="menu-btn" onclick="abrirConteudo(1)">Educação Financeira</button>
+<button class="menu-btn" onclick="abrirConteudo(2)">Programação</button>
+<button class="menu-btn" onclick="abrirConteudo(3)">Empreendedorismo</button>
+<button class="menu-btn" onclick="abrirConteudo(4)">Mentalidade</button>
+<button class="menu-btn" onclick="abrirConteudo(5)">Produtividade</button>
 
 </div>
-
-<!-- CONTEÚDO -->
 
 <div class="md:col-span-2">
 
-<div class="video">
+<h3 id="titulo" class="text-2xl font-bold"></h3>
 
-<iframe id="video" width="100%" height="100%" allowfullscreen></iframe>
+<p id="texto" class="text-gray-300 mt-4 leading-relaxed whitespace-pre-line"></p>
+
+<button onclick="concluirAula()" class="btn mt-6">
+Marcar Conteúdo Concluído
+</button>
+
+<div id="quizArea" class="hidden mt-6">
+
+<h3 class="text-xl font-bold mb-4">
+Quiz Final
+</h3>
+
+<div id="quiz"></div>
+
+<button onclick="corrigirQuiz()" class="btn mt-4">
+Enviar Quiz
+</button>
+
+<p id="resultadoQuiz" class="mt-3 font-bold"></p>
 
 </div>
-
-<h3 id="titulo" class="text-2xl font-bold mt-4"></h3>
-
-<p id="texto" class="text-gray-400 mt-2"></p>
-
-<button onclick="concluirAula()" class="btn mt-4">
-Marcar Aula Concluída
-</button>
 
 </div>
 
@@ -212,45 +201,75 @@ Marcar Aula Concluída
 const usuarios=[
 
 {email:"D",senha:"999000999",nome:"Administrador"},
-
 {email:"ksksksksk",senha:"92929292",nome:"Aluno"},
 {email:"aluno01",senha:"11111111",nome:"Aluno"},
-{email:"aluno02",senha:"22222222",nome:"Aluno"},
-{email:"aluno03",senha:"33333333",nome:"Aluno"},
-{email:"aluno04",senha:"44444444",nome:"Aluno"},
-{email:"aluno05",senha:"55555555",nome:"Aluno"}
+{email:"aluno02",senha:"22222222",nome:"Aluno"}
 
 ]
 
-const aulas={
+const conteudos={
 
-1:{
-titulo:"Educação Financeira",
-video:"https://www.youtube.com/embed/TaV6zVQ2d8E",
-texto:"Educação financeira é aprender a controlar seu dinheiro, entender como economizar, investir e gastar com consciência."
-},
+1:{titulo:"Educação Financeira",texto:`Educação financeira é uma habilidade essencial para qualquer pessoa que deseja ter uma vida estável e tranquila. Muitas pessoas passam a vida inteira trabalhando muito, mas mesmo assim acabam enfrentando problemas financeiros. Isso acontece porque nunca aprenderam a administrar o dinheiro corretamente.
 
-2:{
-titulo:"Programação",
-video:"https://www.youtube.com/embed/8mei6uVttho",
-texto:"Programação é criar soluções digitais usando lógica e tecnologia."
-},
+Quando você entende educação financeira, começa a perceber como o dinheiro funciona. Aprende que não basta apenas ganhar dinheiro, é preciso saber como gastar, como poupar e como investir.
 
-3:{
-titulo:"Empreendedorismo",
-video:"https://www.youtube.com/embed/7XkY9n0u3yU",
-texto:"Empreender é identificar problemas e criar soluções que gerem valor."
-},
+Uma das primeiras lições da educação financeira é entender a diferença entre necessidade e desejo. Muitas vezes as pessoas compram coisas que não precisam apenas por impulso. Isso pode causar problemas financeiros no futuro.
 
-4:{
-titulo:"Mentalidade",
-video:"https://www.youtube.com/embed/fM2QdC9d2sQ",
-texto:"A mentalidade certa faz você persistir mesmo quando os desafios aparecem."
+Outro ponto muito importante é aprender a poupar dinheiro. Guardar uma parte do que você ganha pode parecer difícil no começo, mas com o tempo se torna um hábito muito poderoso.
+
+Além disso, a educação financeira também ensina sobre investimentos. Investir significa fazer o dinheiro trabalhar para você. Existem várias formas de investimento, como renda fixa, ações, fundos e outros tipos de aplicações.
+
+Quando uma pessoa desenvolve inteligência financeira, ela consegue planejar melhor o futuro. Pode criar uma reserva de emergência, investir para aposentadoria e alcançar objetivos importantes.`},
+
+2:{titulo:"Programação",texto:`Programação é a habilidade de ensinar computadores a realizar tarefas. Basicamente, programar significa escrever instruções que o computador consegue entender.
+
+Hoje em dia quase tudo depende de programação. Aplicativos de celular, redes sociais, jogos, sistemas bancários e até carros modernos utilizam programação.
+
+Aprender programação desenvolve muito o raciocínio lógico. Isso acontece porque programar exige pensar de forma organizada e resolver problemas passo a passo.
+
+Existem várias linguagens de programação, como JavaScript, Python, Java e C++. Cada linguagem possui suas próprias características e usos.
+
+Uma das vantagens da programação é que ela permite criar coisas incríveis. Um programador pode desenvolver aplicativos, criar plataformas online, automatizar tarefas e até construir inteligência artificial.
+
+Além disso, a programação é uma das habilidades mais valorizadas no mercado de trabalho moderno. Empresas de tecnologia estão sempre procurando profissionais que saibam programar.
+
+Com dedicação e prática, qualquer pessoa pode aprender programação. O segredo é estudar, praticar e criar projetos.`},
+
+3:{titulo:"Empreendedorismo",texto:`Empreendedorismo é a capacidade de identificar oportunidades e transformá-las em soluções que geram valor para outras pessoas.
+
+Um empreendedor observa problemas no mundo e pensa em maneiras de resolvê-los. Muitas empresas famosas começaram exatamente assim.
+
+Empreender exige criatividade, coragem e persistência. Nem sempre as coisas funcionam na primeira tentativa, mas cada erro traz aprendizado.
+
+Além disso, empreendedores precisam entender o mercado. Isso significa estudar clientes, concorrentes e tendências.
+
+Quando um empreendedor cria algo útil para as pessoas, ele pode gerar impacto positivo na sociedade e também construir sucesso financeiro.`},
+
+4:{titulo:"Mentalidade",texto:`A mentalidade de crescimento é a ideia de que habilidades podem ser desenvolvidas com esforço e prática.
+
+Pessoas com essa mentalidade não desistem facilmente. Quando enfrentam dificuldades, elas veem isso como uma oportunidade de aprender.`},
+
+5:{titulo:"Produtividade",texto:`Produtividade é a capacidade de realizar tarefas de forma eficiente. Não significa trabalhar mais horas, mas sim trabalhar melhor.`}
+
 }
 
-}
+const perguntas=[
+
+{p:"O que é educação financeira?",r:["Controlar dinheiro","Gastar tudo"],c:0},
+{p:"Programação serve para?",r:["Criar sistemas","Nada"],c:0},
+{p:"Empreendedor resolve?",r:["Problemas","Nada"],c:0},
+{p:"Produtividade significa?",r:["Trabalhar melhor","Perder tempo"],c:0},
+{p:"Mentalidade de crescimento?",r:["Aprender sempre","Desistir"],c:0},
+{p:"Internet ajuda a?",r:["Aprender","Nada"],c:0},
+{p:"Investir significa?",r:["Fazer dinheiro crescer","Perder dinheiro"],c:0},
+{p:"Empreender exige?",r:["Persistência","Preguiça"],c:0},
+{p:"Programação usa?",r:["Lógica","Sorte"],c:0},
+{p:"Educação ajuda?",r:["Desenvolvimento","Nada"],c:0}
+
+]
 
 let progresso=0
+let quizAprovado=false
 
 document.getElementById("loginForm").addEventListener("submit",function(e){
 
@@ -266,27 +285,6 @@ document.getElementById("erro").classList.remove("hidden")
 return
 }
 
-if(email==="D"){
-
-window.usuario=email
-
-document.getElementById("login").classList.add("hidden")
-document.getElementById("plataforma").classList.remove("hidden")
-
-document.getElementById("boasvindas").innerText="Bem-vindo Administrador"
-
-return
-}
-
-if(localStorage.getItem("sessao_"+email)){
-alert("Conta já está em uso")
-return
-}
-
-localStorage.setItem("sessao_"+email,"online")
-
-window.usuario=email
-
 document.getElementById("login").classList.add("hidden")
 document.getElementById("plataforma").classList.remove("hidden")
 
@@ -294,18 +292,16 @@ document.getElementById("boasvindas").innerText="Bem-vindo "+user.nome
 
 })
 
-function abrirAula(id){
+function abrirConteudo(id){
 
-document.getElementById("video").src=aulas[id].video
-document.getElementById("titulo").innerText=aulas[id].titulo
-document.getElementById("texto").innerText=aulas[id].texto
+document.getElementById("titulo").innerText=conteudos[id].titulo
+document.getElementById("texto").innerText=conteudos[id].texto
 
 }
 
 function concluirAula(){
 
-progresso+=25
-
+progresso+=20
 if(progresso>100)progresso=100
 
 document.getElementById("barra").style.width=progresso+"%"
@@ -313,10 +309,63 @@ document.getElementById("porcentagem").innerText=progresso+"% concluído"
 
 }
 
-function gerarCertificado(){
+function abrirQuiz(){
 
 if(progresso<100){
-alert("Complete todas as aulas primeiro")
+alert("Complete os conteúdos primeiro")
+return
+}
+
+let html=""
+
+perguntas.forEach((q,i)=>{
+
+html+=`<p class="mt-3">${i+1}. ${q.p}</p>`
+
+q.r.forEach((r,j)=>{
+
+html+=`<label><input type="radio" name="q${i}" value="${j}"> ${r}</label><br>`
+
+})
+
+})
+
+document.getElementById("quiz").innerHTML=html
+document.getElementById("quizArea").classList.remove("hidden")
+
+}
+
+function corrigirQuiz(){
+
+let pontos=0
+
+perguntas.forEach((q,i)=>{
+
+let r=document.querySelector(`input[name="q${i}"]:checked`)
+
+if(r && parseInt(r.value)==q.c){
+pontos++
+}
+
+})
+
+if(pontos>=7){
+
+quizAprovado=true
+document.getElementById("resultadoQuiz").innerText="Você passou no quiz!"
+
+}else{
+
+document.getElementById("resultadoQuiz").innerText="Você não passou. Tente novamente."
+
+}
+
+}
+
+function gerarCertificado(){
+
+if(!quizAprovado){
+alert("Passe no quiz primeiro")
 return
 }
 
@@ -327,42 +376,9 @@ let w=window.open()
 w.document.write(`
 
 <html>
+<body style="font-family:Arial;text-align:center;padding:40px;background:#f4f4f4">
 
-<head>
-
-<title>Certificado</title>
-
-<style>
-
-body{
-font-family:Arial;
-background:#f4f4f4;
-text-align:center;
-padding:40px;
-}
-
-.cert{
-background:white;
-padding:40px;
-border:8px solid gold;
-}
-
-h1{
-font-size:40px;
-}
-
-h2{
-font-size:30px;
-margin:20px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="cert">
+<div style="background:white;padding:40px;border:8px solid gold">
 
 <h1>CERTIFICADO</h1>
 
@@ -379,7 +395,6 @@ margin:20px;
 </div>
 
 </body>
-
 </html>
 
 `)
@@ -387,11 +402,7 @@ margin:20px;
 }
 
 function logout(){
-
-localStorage.removeItem("sessao_"+window.usuario)
-
 location.reload()
-
 }
 
 </script>

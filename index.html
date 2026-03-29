@@ -1,276 +1,250 @@
 <!DOCTYPE html>
-<html class="dark" lang="pt-br">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Buzztime PRO | J.E.A.F SOLUTIONS</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <title>Minimal Business | Intelligence Unit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.symbols.google.com/css2?family=Material+Symbols+Outlined:wght@200;400" rel="stylesheet"/>
     
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "brand": "#10b981",
+                        "dark": "#0f172a",
+                    },
+                    fontFamily: { "sans": ["Plus Jakarta Sans", "sans-serif"] },
+                },
+            },
+        }
+    </script>
     <style>
-        :root { --primary: #00e5ff; --bg: #10141a; --surface: #181c22; --surface-bright: #262a31; }
-        [x-cloak] { display: none !important; }
-        body { background-color: var(--bg); font-family: 'Manrope', sans-serif; color: #dfe2eb; overflow: hidden; }
+        body { background-color: #f1f5f9; -webkit-font-smoothing: antialiased; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .article-content p { margin-bottom: 1.8rem; line-height: 1.9; color: #334155; font-size: 1.05rem; text-align: justify; }
+        .article-content h2 { font-weight: 800; font-size: 1.8rem; margin: 3rem 0 1.5rem 0; color: #0f172a; letter-spacing: -0.04em; }
+        .article-content h3 { font-weight: 700; font-size: 1.3rem; margin: 2rem 0 1rem 0; color: #1e293b; }
+        .article-content blockquote { border-left: 5px solid #10b981; padding: 1.5rem 2rem; font-style: italic; margin: 2.5rem 0; background: #f8fafc; color: #0f172a; border-radius: 0 1rem 1rem 0; }
+        .article-content ul { margin-bottom: 2rem; list-style-type: none; }
+        .article-content li { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; color: #475569; }
+        .article-content li::before { content: "→"; position: absolute; left: 0; color: #10b981; font-weight: bold; }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--surface-bright); border-radius: 10px; }
-
-        .tab-view { display: none; height: calc(100vh - 100px); overflow-y: auto; padding: 1.5rem 1.5rem 150px 1.5rem; }
-        .tab-view.active { display: block; animation: slideUp 0.4s cubic-bezier(0, 0, 0.2, 1); }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .bottom-bar {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: fit-content; background: rgba(24, 28, 34, 0.9);
-            backdrop-filter: blur(20px); border: 1px solid rgba(0, 229, 255, 0.15);
-            border-radius: 50px; padding: 10px 20px; display: flex; gap: 15px; z-index: 100;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.05);
-        }
-
-        .nav-btn {
-            width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
-            color: #6a7c80; transition: 0.3s; cursor: pointer; border-radius: 50%;
-        }
-        .nav-btn.active { color: var(--primary); background: rgba(0, 229, 255, 0.15); box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
-        
-        .stat-card { background: var(--surface); border: 1px solid rgba(59, 73, 76, 0.3); border-radius: 24px; padding: 20px; transition: 0.3s; }
-        .stat-card:hover { border-color: var(--primary); background: #1c2229; }
-        
-        /* Gráfico Fake */
-        .bar { width: 8px; border-radius: 4px; background: var(--primary); min-height: 20px; transition: 0.5s; }
+        .login-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body x-data="buzztimeApp()">
 
-<div class="flex flex-col h-screen w-full">
-    
-    <header class="h-20 border-b border-[#3b494c]/20 flex items-center justify-between px-8 bg-[#10141a] z-50">
-        <div class="flex items-center gap-4">
-            <div class="p-2 bg-[#00e5ff]/10 rounded-lg border border-[#00e5ff]/20">
-                <span class="material-symbols-outlined text-[#00e5ff]">analytics</span>
-            </div>
-            <div class="flex flex-col">
-                <span class="text-[#00e5ff] font-black text-xl tracking-tighter leading-tight">Buzztime PRO</span>
-                <span class="text-[8px] font-bold text-[#bac9cc] uppercase tracking-[0.2em]">SISTEMA DE GESTÃO J.E.A.F</span>
-            </div>
-        </div>
-        <div class="hidden md:flex items-center gap-6">
-            <div class="text-right">
-                <p class="text-[10px] font-black text-[#dfe2eb]">MERCADO PEG PAG</p>
-                <p class="text-[8px] text-green-400 font-bold uppercase">Licença: Gold Vitalícia</p>
-            </div>
-            <div class="h-10 w-[1px] bg-[#3b494c]/30"></div>
-            <div class="flex flex-col items-end">
-                <p class="text-[10px] font-black text-[#00e5ff]" x-text="dataAtual"></p>
-                <p class="text-[8px] text-[#bac9cc] font-bold uppercase">Servidor: São Paulo</p>
-            </div>
-        </div>
-    </header>
-
-    <main class="flex-1 relative">
+<body class="text-slate-900 font-sans">
+    <div class="relative min-h-screen max-w-md mx-auto bg-white flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.1)] overflow-hidden">
         
-        <div class="tab-view" :class="currentTab === 'home' ? 'active' : ''">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <div class="lg:col-span-2 bg-gradient-to-br from-[#181c22] to-[#13171d] rounded-[2.5rem] p-10 border border-[#3b494c]/30 relative overflow-hidden shadow-2xl">
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-[#00e5ff]/5 blur-[120px] -mr-20 -mt-20"></div>
-                    <div class="flex justify-between items-start mb-10">
-                        <div>
-                            <p class="text-[#bac9cc] font-bold text-[11px] uppercase tracking-[0.3em] mb-2">Liquidez Disponível</p>
-                            <h1 class="text-6xl font-black text-[#dfe2eb] tracking-tighter" x-text="formatar(saldo)"></h1>
-                        </div>
-                        <div class="flex gap-2">
-                            <template x-for="h in [40, 70, 50, 90, 60, 80, 100]">
-                                <div class="bar" :style="'height:' + h + '%'"></div>
-                            </template>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap gap-4">
-                        <button @click="lancar('entrada')" class="bg-[#00e5ff] text-[#10141a] px-8 py-4 rounded-2xl font-black text-[11px] shadow-[0_10px_20px_rgba(0,229,255,0.2)] hover:scale-105 transition-all">REGISTRAR VENDA</button>
-                        <button @click="currentTab = 'despesas'" class="bg-[#262a31] text-[#dfe2eb] border border-[#3b494c] px-8 py-4 rounded-2xl font-black text-[11px] hover:bg-[#31353c]">VER DESPESAS</button>
-                    </div>
+        <div id="login-screen" class="absolute inset-0 z-[100] login-gradient p-10 flex flex-col justify-between text-white">
+            <div class="mt-10">
+                <div class="size-12 bg-brand rounded-xl mb-8 flex items-center justify-center shadow-lg shadow-brand/20">
+                    <span class="material-symbols-outlined text-white text-2xl">terminal</span>
                 </div>
+                <h1 class="text-4xl font-extrabold tracking-tighter mb-4">MINDSET.<br/>SYSTEMS.</h1>
+                <p class="text-slate-400 font-medium">Acesse o portal de inteligência para membros fundadores.</p>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="space-y-4">
+                    <input type="email" placeholder="E-mail corporativo" class="w-full p-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-brand transition-all placeholder:text-slate-500">
+                    <input type="password" placeholder="Chave de acesso" class="w-full p-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-brand transition-all placeholder:text-slate-500">
+                </div>
+                <button onclick="handleLogin()" class="w-full bg-brand text-dark font-extrabold p-5 rounded-xl hover:brightness-110 transition-all active:scale-[0.98] shadow-lg shadow-brand/20">
+                    INICIAR SESSÃO
+                </button>
+                <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-500 px-2">
+                    <span>v.4.0.2</span>
+                    <span>Server: BR-SP-1</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="app-content" class="hidden flex flex-col h-full bg-slate-50">
+            <header class="p-8 pb-4 flex items-center justify-between sticky top-0 bg-slate-50/80 backdrop-blur-md z-30">
+                <div>
+                    <p class="text-[10px] font-bold text-brand uppercase tracking-[0.2em] mb-1">Knowledge Base</p>
+                    <h1 class="text-2xl font-black tracking-tighter text-dark">Insights.</h1>
+                </div>
+                <div class="flex gap-2">
+                    <button class="size-10 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400">
+                        <span class="material-symbols-outlined text-xl">search</span>
+                    </button>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto no-scrollbar pb-32 px-6">
+                <section class="mb-10 fade-up">
+                    <div class="bg-white rounded-[2.5rem] p-4 shadow-sm border border-slate-100 cursor-pointer" onclick="openArticle('art1')">
+                        <div class="relative aspect-video rounded-[2rem] overflow-hidden mb-6">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-brand/10 mix-blend-multiply"></div>
+                        </div>
+                        <div class="px-4 pb-4">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-2 py-1 bg-dark text-white text-[9px] font-black rounded uppercase">Deep Dive</span>
+                                <span class="text-slate-400 text-[10px] font-bold">12 MIN READ</span>
+                            </div>
+                            <h2 class="text-2xl font-extrabold text-dark leading-none mb-3">Arquitetura da Performance Cognitiva</h2>
+                            <p class="text-slate-500 text-sm line-clamp-2">Uma análise técnica sobre como os maiores CEOs do mundo estruturam seus dias para evitar a fadiga de decisão.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <h3 class="text-[11px] font-black text-slate-400 uppercase tracking-widest px-2 mb-6">Próximas Leituras</h3>
 
                 <div class="space-y-4">
-                    <div class="stat-card">
-                        <div class="flex justify-between mb-2">
-                            <span class="text-[10px] font-black text-[#bac9cc] uppercase">Lucro Líquido Est.</span>
-                            <span class="text-green-400 text-[10px] font-bold">+18%</span>
-                        </div>
-                        <h3 class="text-3xl font-black text-[#00e5ff]" x-text="formatar(saldo * 0.32)"></h3>
-                        <div class="w-full bg-[#10141a] h-1 mt-4 rounded-full overflow-hidden">
-                            <div class="bg-[#00e5ff] h-full w-[72%]"></div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <p class="text-[10px] font-black text-[#bac9cc] uppercase mb-2">Provisão de Impostos (Simples)</p>
-                        <h3 class="text-3xl font-black text-red-400" x-text="formatar(saldo * 0.06)"></h3>
-                        <p class="text-[8px] text-[#bac9cc] mt-2 italic font-medium">* Baseado no faturamento bruto do mês</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-[#181c22]/50 p-6 rounded-3xl border border-[#3b494c]/20">
-                    <p class="text-[9px] font-black text-[#bac9cc] uppercase mb-1">Ticket Médio</p>
-                    <p class="text-xl font-bold text-white">R$ 158,40</p>
-                </div>
-                <div class="bg-[#181c22]/50 p-6 rounded-3xl border border-[#3b494c]/20">
-                    <p class="text-[9px] font-black text-[#bac9cc] uppercase mb-1">Vendas Hoje</p>
-                    <p class="text-xl font-bold text-white">42 ordens</p>
-                </div>
-                <div class="bg-[#181c22]/50 p-6 rounded-3xl border border-[#3b494c]/20">
-                    <p class="text-[9px] font-black text-[#bac9cc] uppercase mb-1">Status PDV</p>
-                    <p class="text-xl font-bold text-green-400 uppercase text-[12px]">Operacional</p>
-                </div>
-                <div class="bg-[#181c22]/50 p-6 rounded-3xl border border-[#3b494c]/20">
-                    <p class="text-[9px] font-black text-[#bac9cc] uppercase mb-1">Sincronização</p>
-                    <p class="text-xl font-bold text-[#00e5ff] text-[12px]">Cloud Ativa</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-view" :class="currentTab === 'despesas' ? 'active' : ''">
-            <div class="flex items-center justify-between mb-10">
-                <h2 class="text-3xl font-black text-[#dfe2eb] italic uppercase tracking-tighter">Fluxo de Saída</h2>
-                <div class="flex gap-3">
-                    <button @click="lancar('saida')" class="bg-red-500 text-white px-6 py-3 rounded-xl font-black text-[10px] shadow-[0_10px_20px_rgba(239,68,68,0.2)]">NOVO DÉBITO</button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                <div class="p-8 bg-[#181c22] rounded-[2rem] border-l-4 border-red-500">
-                    <p class="text-[10px] font-black text-[#bac9cc] uppercase mb-2">Total de Gastos (Mês)</p>
-                    <h4 class="text-4xl font-black text-white" x-text="formatar(12450.80)"></h4>
-                </div>
-                <div class="p-8 bg-[#181c22] rounded-[2rem] border-l-4 border-yellow-500">
-                    <p class="text-[10px] font-black text-[#bac9cc] uppercase mb-2">Contas Próximas</p>
-                    <h4 class="text-4xl font-black text-white">05 <span class="text-sm font-bold text-yellow-500 uppercase ml-2">Vencendo</span></h4>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <template x-for="t in transacoes.filter(i => i.tipo === 'saida')" :key="t.id">
-                    <div class="flex items-center justify-between p-6 bg-[#181c22] rounded-[2rem] border border-[#3b494c]/10 hover:border-red-500/30 transition-all">
-                        <div class="flex items-center gap-6">
-                            <div class="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500">
-                                <span class="material-symbols-outlined">payments</span>
-                            </div>
-                            <div>
-                                <p class="font-black text-sm uppercase tracking-tighter" x-text="t.nome"></p>
-                                <p class="text-[10px] text-[#bac9cc] font-bold" x-text="t.data"></p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-black text-lg text-white" x-text="formatar(t.valor)"></p>
-                            <p class="text-[8px] text-red-400 font-bold uppercase tracking-widest">Pago via Caixa</p>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-
-        <div class="tab-view" :class="currentTab === 'extrato' ? 'active' : ''">
-            <h2 class="text-2xl font-black text-[#00e5ff] mb-8 uppercase italic tracking-tighter">Histórico de Transações</h2>
-            <div class="space-y-3">
-                <template x-for="t in transacoes" :key="t.id">
-                    <div class="flex items-center justify-between p-5 bg-[#181c22] rounded-2xl border border-[#3b494c]/10 group hover:bg-[#1c2229] transition-all">
-                        <div class="flex items-center gap-5">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-all" :class="t.tipo === 'entrada' ? 'bg-[#00e5ff]/10 text-[#00e5ff]' : 'bg-red-500/10 text-red-400'">
-                                <span class="material-symbols-outlined font-bold" x-text="t.tipo === 'entrada' ? 'add' : 'remove'"></span>
-                            </div>
-                            <div>
-                                <p class="font-black text-xs uppercase" x-text="t.nome"></p>
-                                <p class="text-[10px] text-[#bac9cc] font-medium" x-text="t.data"></p>
-                            </div>
-                        </div>
-                        <span class="font-black text-sm" :class="t.tipo === 'entrada' ? 'text-[#00e5ff]' : 'text-white'" x-text="formatar(t.valor)"></span>
-                    </div>
-                </template>
-            </div>
-        </div>
-
-        <div class="tab-view" :class="currentTab === 'config' ? 'active' : ''">
-            <h2 class="text-2xl font-black text-[#dfe2eb] mb-10 uppercase italic">Painel de Controle J.E.A.F</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div class="stat-card">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 rounded-full bg-[#00e5ff] flex items-center justify-center text-[#10141a]">
-                            <span class="material-symbols-outlined font-bold">verified_user</span>
+                    <div class="bg-white p-5 rounded-3xl flex gap-4 items-center shadow-sm border border-slate-100 cursor-pointer hover:border-brand/30 transition-colors" onclick="openArticle('art2')">
+                        <div class="size-16 bg-slate-100 rounded-2xl flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-brand">database</span>
                         </div>
                         <div>
-                            <p class="text-[10px] font-black text-[#bac9cc] uppercase">Licença Ativa</p>
-                            <p class="font-black text-[#00e5ff]">GOLD VITALÍCIA</p>
+                            <h4 class="font-extrabold text-dark leading-tight">Sistemas de Alavancagem Operacional</h4>
+                            <p class="text-slate-400 text-xs mt-1">Como escalar sem aumentar o headcount.</p>
                         </div>
                     </div>
-                    <div class="space-y-3 text-[11px] font-bold uppercase tracking-widest">
-                        <div class="flex justify-between border-b border-[#3b494c]/10 pb-2"><span>Versão:</span><span class="text-white">Buzz v4.2 PRO</span></div>
-                        <div class="flex justify-between border-b border-[#3b494c]/10 pb-2"><span>Cliente:</span><span class="text-white">Mercado PEG PAG</span></div>
-                        <div class="flex justify-between"><span>Dev:</span><span class="text-white">J.E.A.F SOLUTIONS</span></div>
-                    </div>
-                </div>
 
-                <div class="stat-card flex flex-col justify-between">
-                    <div>
-                        <p class="text-[10px] font-black text-[#bac9cc] uppercase mb-4">Segurança de Dados</p>
-                        <button @click="alert('Backup concluído!')" class="w-full bg-[#262a31] py-4 rounded-2xl font-black text-[10px] uppercase border border-[#00e5ff]/10 text-[#00e5ff] hover:bg-[#00e5ff]/5">Executar Backup Cloud</button>
+                    <div class="bg-white p-5 rounded-3xl flex gap-4 items-center shadow-sm border border-slate-100 cursor-pointer hover:border-brand/30 transition-colors" onclick="openArticle('art3')">
+                        <div class="size-16 bg-slate-100 rounded-2xl flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-brand">psychology</span>
+                        </div>
+                        <div>
+                            <h4 class="font-extrabold text-dark leading-tight">A Neurociência do Foco Absoluto</h4>
+                            <p class="text-slate-400 text-xs mt-1">Otimizando neurotransmissores para o trabalho.</p>
+                        </div>
                     </div>
-                    <p class="text-[9px] text-center text-[#bac9cc] mt-4 uppercase">Último backup: Hoje, 14:20</p>
                 </div>
+            </main>
+
+            <div class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-dark/95 backdrop-blur-lg rounded-3xl h-16 flex items-center justify-around px-8 shadow-2xl z-50">
+                <button class="text-brand"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span></button>
+                <button class="text-slate-500"><span class="material-symbols-outlined">analytics</span></button>
+                <button class="text-slate-500"><span class="material-symbols-outlined">settings</span></button>
+                <button onclick="logout()" class="text-slate-500"><span class="material-symbols-outlined">logout</span></button>
             </div>
+        </div>
+
+        <div id="article-view" class="hidden fixed inset-0 z-[110] bg-white flex flex-col max-w-md mx-auto overflow-hidden">
+            <div id="read-progress" class="fixed top-0 left-0 h-1.5 bg-brand z-[120] w-0 transition-all"></div>
             
-            <button @click="confirm('Deseja encerrar o caixa?') && alert('Caixa Encerrado!')" class="w-full bg-red-500/10 text-red-500 border border-red-500/20 py-5 rounded-3xl font-black text-xs uppercase tracking-widest mt-4">Encerrar Sessão do Sistema</button>
+            <header class="p-6 flex items-center justify-between border-b border-slate-50">
+                <button onclick="closeArticle()" class="text-dark"><span class="material-symbols-outlined font-bold">close</span></button>
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Intelligence Unit Report</span>
+                <div class="size-2 bg-brand rounded-full animate-pulse"></div>
+            </header>
+            
+            <div class="flex-1 overflow-y-auto p-8 no-scrollbar" id="scroll-ctx">
+                <div id="article-target" class="article-content">
+                    </div>
+                <div class="h-32"></div>
+            </div>
         </div>
+    </div>
 
-    </main>
+    <script>
+        const library = {
+            art1: {
+                title: "Arquitetura da Performance Cognitiva: O Guia Definitivo",
+                content: `
+                    <p class="font-bold text-xl text-dark">A fadiga de decisão não é um mito psicológico; é uma realidade biológica que drena o capital estratégico de qualquer líder.</p>
+                    
+                    <p>Estudos recentes indicam que o cérebro humano tem um estoque limitado de energia para escolhas complexas. Cada vez que você decide entre qual e-mail responder ou qual ferramenta usar, você consome uma glicose preciosa que deveria ser usada para visão de longo prazo.</p>
 
-    <nav class="bottom-bar">
-        <div @click="currentTab = 'home'" :class="currentTab === 'home' ? 'active' : ''" class="nav-btn">
-            <span class="material-symbols-outlined">grid_view</span>
-        </div>
-        <div @click="currentTab = 'despesas'" :class="currentTab === 'despesas' ? 'active' : ''" class="nav-btn">
-            <span class="material-symbols-outlined">account_balance_wallet</span>
-        </div>
-        <div @click="currentTab = 'extrato'" :class="currentTab === 'extrato' ? 'active' : ''" class="nav-btn">
-            <span class="material-symbols-outlined">history</span>
-        </div>
-        <div @click="currentTab = 'config'" :class="currentTab === 'config' ? 'active' : ''" class="nav-btn">
-            <span class="material-symbols-outlined">settings_suggest</span>
-        </div>
-    </nav>
+                    <h2>1. A Redução da Carga Entrópica</h2>
+                    <p>Entropia é a medida de desordem em um sistema. No mundo dos negócios, a entropia manifesta-se como reuniões sem pauta, notificações aleatórias e processos ambíguos. CEOs de alta performance operam sob um princípio de "Default to Zero":</p>
+                    <ul>
+                        <li><b>Protocolo de Comunicação:</b> Respostas assíncronas por padrão. O síncrono (reunião) é a exceção custosa.</li>
+                        <li><b>Uniformidade de Contexto:</b> Reduzir drasticamente o número de softwares utilizados. Menos abas, mais profundidade.</li>
+                    </ul>
 
-</div>
+                    <blockquote>"A sofisticação máxima consiste na eliminação do supérfluo para que o essencial possa respirar."</blockquote>
 
-<script>
-    function buzztimeApp() {
-        return {
-            currentTab: 'home',
-            saldo: 284550.12,
-            dataAtual: new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }),
-            transacoes: [
-                { id: 1, tipo: 'entrada', nome: 'Venda Checkout 01', valor: 250.00, data: 'Hoje - 14:05' },
-                { id: 2, tipo: 'saida', nome: 'Limpeza e Higiene', valor: 120.00, data: 'Hoje - 09:15' },
-                { id: 3, tipo: 'entrada', nome: 'Recarga Celular PDV', valor: 55.00, data: 'Hoje - 08:30' },
-                { id: 4, tipo: 'saida', nome: 'Fornecedor Frutas', valor: 850.00, data: 'Ontem' },
-                { id: 5, tipo: 'entrada', nome: 'Venda Checkout 02', valor: 1540.00, data: 'Ontem' }
-            ],
-            formatar(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); },
-            lancar(tipo) {
-                const n = prompt(`Descrição:`);
-                const v = parseFloat(prompt("Valor:"));
-                if(n && !isNaN(v)) {
-                    this.transacoes.unshift({ id: Date.now(), tipo, nome: n, valor: v, data: 'Agora' });
-                    tipo === 'entrada' ? this.saldo += v : this.saldo -= v;
-                }
+                    <h2>2. O Ciclo Ultradiano de Foco</h2>
+                    <p>Esqueça a jornada de 8 horas lineares. O cérebro opera em ciclos de aproximadamente 90 a 120 minutos. Tentar forçar o foco além disso resulta em rendimentos decrescentes. A técnica de elite consiste em:</p>
+                    <h3>Fase de Explosão (90 min)</h3>
+                    <p>Trabalho isolado, sem internet se possível, focado em uma única variável crítica (The One Thing).</p>
+                    <h3>Fase de Dissipação (20 min)</h3>
+                    <p>Afastamento total de telas. O movimento físico aqui ajuda a processar a informação adquirida na fase anterior.</p>
+                `
+            },
+            art2: {
+                title: "Alavancagem Operacional: Como Escalar com Inteligência",
+                content: `
+                    <p>O maior erro do empreendedor iniciante é acreditar que "mais lucro requer mais pessoas". No novo paradigma digital, o lucro é desassociado do headcount através da alavancagem.</p>
+                    
+                    <h2>Os 3 Pilares da Alavancagem</h2>
+                    <p>Existem três formas principais de alavancar um negócio sem inflar custos fixos:</p>
+                    
+                    <h3>1. Código e Automação</h3>
+                    <p>Um software trabalha enquanto você dorme, não pede aumento e executa tarefas com precisão de 100%. Se uma tarefa é repetida mais de 3 vezes, ela deve ser automatizada ou delegada a um algoritmo.</p>
+
+                    <h3>2. Mídia e Conteúdo</h3>
+                    <p>Diferente de uma força de vendas humana, um artigo ou vídeo bem estruturado pode educar milhares de clientes simultaneamente com custo marginal zero.</p>
+
+                    <h3>3. Capital Especializado</h3>
+                    <p>Alocar recursos em ativos que geram retorno composto, e não apenas em cobrir buracos operacionais.</p>
+
+                    <blockquote>"Dê-me uma alavanca longa o suficiente e um ponto de apoio, e eu moverei o mundo." - Arquimedes</blockquote>
+                `
+            },
+            art3: {
+                title: "A Neurociência do Fluxo (Flow State)",
+                content: `
+                    <p>O estado de "Flow" é definido como o momento em que a consciência se funde com a ação. Nesse estado, a produtividade aumenta em até 500%.</p>
+                    
+                    <h2>O Gatilho da Proporção Desafio/Habilidade</h2>
+                    <p>Para entrar em fluxo, a tarefa não pode ser tão fácil que cause tédio, nem tão difícil que cause ansiedade. O "Sweet Spot" é um desafio cerca de 4% além da sua habilidade atual.</p>
+
+                    <h2>Química Interna</h2>
+                    <p>Durante o Flow, o cérebro libera um coquetel potente de dopamina, norepinefrina e anandamida. Isso não apenas nos torna mais rápidos, mas também aumenta a nossa capacidade de aprendizado e retenção de padrões complexos.</p>
+                    
+                    <ul>
+                        <li><b>Ambiente Blindado:</b> Remova qualquer possibilidade de interrupção externa.</li>
+                        <li><b>Metas Claras:</b> Saiba exatamente qual é a definição de "feito" antes de começar.</li>
+                    </ul>
+                `
             }
-        }
-    }
-</script>
+        };
 
+        function handleLogin() {
+            const btn = event.target;
+            btn.innerText = "VALIDANDO CREDENCIAIS...";
+            setTimeout(() => {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('app-content').classList.remove('hidden');
+            }, 1000);
+        }
+
+        function logout() {
+            location.reload();
+        }
+
+        function openArticle(id) {
+            const data = library[id];
+            const view = document.getElementById('article-view');
+            const target = document.getElementById('article-target');
+            
+            target.innerHTML = `<h1 class="text-4xl font-black text-dark leading-tight mb-8">${data.title}</h1>` + data.content;
+            
+            view.classList.remove('hidden');
+            view.classList.add('fade-up');
+            
+            const scrollCtx = document.getElementById('scroll-ctx');
+            scrollCtx.scrollTop = 0;
+            scrollCtx.onscroll = () => {
+                const pct = (scrollCtx.scrollTop / (scrollCtx.scrollHeight - scrollCtx.clientHeight)) * 100;
+                document.getElementById('read-progress').style.width = pct + '%';
+            };
+        }
+
+        function closeArticle() {
+            document.getElementById('article-view').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
